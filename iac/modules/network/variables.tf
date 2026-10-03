@@ -21,4 +21,3 @@ variable "private_endpoint_subnet_name" {
 variable "tags" {
   type = map(string)
 }
-``
