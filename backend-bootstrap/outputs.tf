@@ -7,5 +7,5 @@ output "container_name" {
 }
 
 output "resource_group_name" {
-  value = azurerm_resource_group.tfstate.name
+  value = "rg-sandbox-cloud-aly-ghazal"
 }
