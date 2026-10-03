@@ -4,9 +4,9 @@ resource "azurerm_resource_group" "tfstate" {
 }
 
 resource "azurerm_storage_account" "tfstate" {
-  name                     = "aabdelghaf005tfstate"
-  resource_group_name      = azurerm_resource_group.tfstate.name
-  location                 = azurerm_resource_group.tfstate.location
+  name                = "aabdelghaf005tfstate"
+  resource_group_name = azurerm_resource_group.tfstate.name
+  location            = azurerm_resource_group.tfstate.location
 
   account_tier             = "Standard"
   account_replication_type = "LRS"
