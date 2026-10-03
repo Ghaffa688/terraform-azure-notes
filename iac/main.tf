@@ -33,3 +33,14 @@ module "storage" {
 
   tags = local.common_tags
 }
+module "webapp" {
+  source = "./modules/webapp"
+
+  app_service_plan_name = "${local.prefix}-asp"
+  webapp_name           = "${local.prefix}-webapp"
+
+  resource_group_name = module.network.resource_group_name
+  location            = var.location
+
+  tags = local.common_tags
+}

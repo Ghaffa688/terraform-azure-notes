@@ -20,3 +20,10 @@ output "storage_account_name" {
 output "storage_account_id" {
   value = module.storage.storage_account_id
 }
+output "webapp_name" {
+  value = module.webapp.webapp_name
+}
+
+output "webapp_url" {
+  value = module.webapp.webapp_url
+}
