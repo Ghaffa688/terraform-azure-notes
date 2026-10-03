@@ -33,14 +33,3 @@ module "storage" {
 
   tags = local.common_tags
 }
-module "storage" {
-  source = "./modules/storage"
-
-  storage_account_name = replace("${local.prefix}storage", "-", "")
-  resource_group_name  = module.network.resource_group_name
-  location             = var.location
-
-  subnet_id = module.network.private_endpoint_subnet_id
-
-  tags = local.common_tags
-}
