@@ -13,3 +13,10 @@ output "app_subnet_id" {
 output "private_endpoint_subnet_id" {
   value = module.network.private_endpoint_subnet_id
 }
+output "storage_account_name" {
+  value = module.storage.storage_account_name
+}
+
+output "storage_account_id" {
+  value = module.storage.storage_account_id
+}
