@@ -52,6 +52,7 @@ module "webapp" {
   resource_group_name = module.network.resource_group_name
   location            = var.location
   identity_id         = module.identity.identity_id
+  webapp_count        = var.webapp_count
   tags                = local.common_tags
 }
 
@@ -108,7 +109,7 @@ resource "azurerm_monitor_diagnostic_setting" "storage" {
 }
 resource "azurerm_monitor_diagnostic_setting" "webapp" {
   name                       = "${local.prefix}-webapp-diag"
-  target_resource_id         = module.webapp.webapp_id
+  target_resource_id         = module.webapp.webapp_id[0]
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
   enabled_log {

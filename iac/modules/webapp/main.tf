@@ -10,6 +10,7 @@ resource "azurerm_service_plan" "webapp" {
 }
 
 resource "azurerm_linux_web_app" "webapp" {
+  count               = var.webapp_count
   name                = var.webapp_name
   resource_group_name = var.resource_group_name
   location            = var.location

@@ -21,3 +21,6 @@ variable "tags" {
 variable "identity_id" {
   type = string
 }
+variable "webapp_count" {
+  type = number
+}
