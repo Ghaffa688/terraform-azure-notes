@@ -34,3 +34,10 @@ output "identity_id" {
 output "identity_principal_id" {
   value = module.identity.principal_id
 }
+output "keyvault_uri" {
+  value = azurerm_key_vault.main.vault_uri
+}
+
+output "keyvault_id" {
+  value = azurerm_key_vault.main.id
+}

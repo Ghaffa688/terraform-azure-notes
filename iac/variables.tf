@@ -32,3 +32,7 @@ variable "webapp_count" {
   description = "Number of web apps"
   type        = number
 }
+variable "tenant_id" {
+  description = "Azure tenant ID"
+  type        = string
+}

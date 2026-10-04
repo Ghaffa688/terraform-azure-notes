@@ -33,17 +33,6 @@ module "storage" {
 
   tags = local.common_tags
 }
-module "webapp" {
-  source = "./modules/webapp"
-
-  app_service_plan_name = "${local.prefix}-asp"
-  webapp_name           = "${local.prefix}-webapp"
-
-  resource_group_name = module.network.resource_group_name
-  location            = var.location
-
-  tags = local.common_tags
-}
 module "identity" {
   source = "./modules/identity"
 
@@ -53,4 +42,40 @@ module "identity" {
   location            = var.location
 
   tags = local.common_tags
+}
+module "webapp" {
+  source = "./modules/webapp"
+
+  app_service_plan_name = "${local.prefix}-asp"
+  webapp_name           = "${local.prefix}-webapp"
+
+  resource_group_name = module.network.resource_group_name
+  location            = var.location
+  identity_id         = module.identity.identity_id
+  tags                = local.common_tags
+}
+
+resource "azurerm_key_vault" "main" {
+  name                = replace("${local.prefix}kv", "-", "")
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+
+  tenant_id = var.tenant_id
+  sku_name  = "standard"
+
+  purge_protection_enabled   = false
+  soft_delete_retention_days = 7
+
+  tags = local.common_tags
+}
+resource "azurerm_key_vault_secret" "app_secret" {
+  name         = "app-secret"
+  value        = "HelloTerraform"
+  key_vault_id = azurerm_key_vault.main.id
+}
+resource "azurerm_role_assignment" "keyvault_secrets_user" {
+  scope                = azurerm_key_vault.main.id
+  role_definition_name = "Key Vault Secrets User"
+
+  principal_id = module.identity.principal_id
 }

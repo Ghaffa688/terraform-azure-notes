@@ -17,6 +17,9 @@ resource "azurerm_linux_web_app" "webapp" {
   service_plan_id = azurerm_service_plan.webapp.id
 
   site_config {}
-
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [var.identity_id]
+  }
   tags = var.tags
 }
