@@ -79,3 +79,43 @@ resource "azurerm_role_assignment" "keyvault_secrets_user" {
 
   principal_id = module.identity.principal_id
 }
+resource "azurerm_log_analytics_workspace" "main" {
+  name                = "${local.prefix}-law"
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+
+  sku               = "PerGB2018"
+  retention_in_days = 30
+
+  tags = local.common_tags
+}
+resource "azurerm_monitor_diagnostic_setting" "storage" {
+  name                       = "${local.prefix}-storage-diag"
+  target_resource_id         = module.storage.storage_account_id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "StorageRead"
+  }
+
+  enabled_log {
+    category = "StorageWrite"
+  }
+
+  metric {
+    category = "Transaction"
+  }
+}
+resource "azurerm_monitor_diagnostic_setting" "webapp" {
+  name                       = "${local.prefix}-webapp-diag"
+  target_resource_id         = module.webapp.webapp_id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "AppServiceHTTPLogs"
+  }
+
+  metric {
+    category = "AllMetrics"
+  }
+}
