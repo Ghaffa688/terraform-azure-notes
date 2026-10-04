@@ -44,3 +44,13 @@ module "webapp" {
 
   tags = local.common_tags
 }
+module "identity" {
+  source = "./modules/identity"
+
+  identity_name = "${local.prefix}-identity"
+
+  resource_group_name = module.network.resource_group_name
+  location            = var.location
+
+  tags = local.common_tags
+}
