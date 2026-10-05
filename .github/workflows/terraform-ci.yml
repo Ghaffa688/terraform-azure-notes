@@ -38,3 +38,15 @@ jobs:
         with:
           name: terraform-plan
           path: iac/tfplan
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: iac
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: iac
+          framework: terraform
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
