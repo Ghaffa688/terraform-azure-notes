@@ -14,6 +14,9 @@ resource "azurerm_storage_account" "storage" {
   virtual_network_subnet_ids = [var.subnet_id]
   bypass                     = ["AzureServices"]
 }
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "azurerm_private_endpoint" "storage" {
@@ -28,5 +31,8 @@ resource "azurerm_private_endpoint" "storage" {
     private_connection_resource_id = azurerm_storage_account.storage.id
     subresource_names              = ["blob"]
     is_manual_connection           = false
+  }
+    lifecycle {
+    ignore_changes = [tags]
   }
 }
