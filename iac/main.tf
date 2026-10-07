@@ -15,12 +15,6 @@ module "network" {
 
   resource_group_name = var.resource_group_name
   vnet_name           = var.vnet_name
-
-  app_subnet_name           = "${local.prefix}-app-subnet"
-  app_subnet_address_prefix = var.app_subnet_address_prefix
-
-  private_endpoint_subnet_name           = "${local.prefix}-pe-subnet"
-  private_endpoint_subnet_address_prefix = var.private_endpoint_subnet_address_prefix
 }
 
 module "storage" {
@@ -40,6 +34,7 @@ resource "azurerm_user_assigned_identity" "identity" {
   location            = var.location
 
   tags = local.common_tags
+  lifecycle { ignore_changes = [tags] }
 }
 module "webapp" {
   source = "./modules/webapp"
@@ -66,12 +61,15 @@ resource "azurerm_key_vault" "main" {
   soft_delete_retention_days = 7
 
   tags = local.common_tags
+  lifecycle { ignore_changes = [tags] }
 }
+/*
 resource "azurerm_key_vault_secret" "app_secret" {
   name         = "app-secret"
   value        = "HelloTerraform"
   key_vault_id = azurerm_key_vault.main.id
 }
+*/
 resource "azurerm_role_assignment" "keyvault_secrets_user" {
   scope                = azurerm_key_vault.main.id
   role_definition_name = "Key Vault Secrets User"
@@ -87,10 +85,11 @@ resource "azurerm_log_analytics_workspace" "main" {
   retention_in_days = 30
 
   tags = local.common_tags
+  lifecycle { ignore_changes = [tags] }
 }
 resource "azurerm_monitor_diagnostic_setting" "storage" {
   name                       = "${local.prefix}-storage-diag"
-  target_resource_id         = module.storage.storage_account_id
+  target_resource_id = "${module.storage.storage_account_id}/blobServices/default"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
   enabled_log {
