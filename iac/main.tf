@@ -105,8 +105,8 @@ resource "azurerm_monitor_diagnostic_setting" "storage" {
   }
   metric {
     category = "Capacity"
-    enabled = false
-}
+    enabled  = false
+  }
 }
 resource "azurerm_monitor_diagnostic_setting" "webapp" {
   name                       = "${local.prefix}-webapp-diag"
