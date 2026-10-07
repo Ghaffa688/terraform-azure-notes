@@ -36,3 +36,22 @@ variable "tenant_id" {
   description = "Azure tenant ID"
   type        = string
 }
+variable "resource_group_name" {
+  description = "Existing sandbox resource group"
+  type        = string
+}
+
+variable "vnet_name" {
+  description = "Existing sandbox virtual network"
+  type        = string
+}
+
+variable "app_subnet_address_prefix" {
+  description = "Application subnet CIDR"
+  type        = string
+}
+
+variable "private_endpoint_subnet_address_prefix" {
+  description = "Private endpoint subnet CIDR"
+  type        = string
+}

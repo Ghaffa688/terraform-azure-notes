@@ -13,13 +13,14 @@ locals {
 module "network" {
   source = "./modules/network"
 
-  resource_group_name          = "${local.prefix}-rg"
-  location                     = var.location
-  vnet_name                    = "${local.prefix}-vnet"
-  app_subnet_name              = "${local.prefix}-app-subnet"
-  private_endpoint_subnet_name = "${local.prefix}-pe-subnet"
+  resource_group_name = var.resource_group_name
+  vnet_name           = var.vnet_name
 
-  tags = local.common_tags
+  app_subnet_name           = "${local.prefix}-app-subnet"
+  app_subnet_address_prefix = var.app_subnet_address_prefix
+
+  private_endpoint_subnet_name           = "${local.prefix}-pe-subnet"
+  private_endpoint_subnet_address_prefix = var.private_endpoint_subnet_address_prefix
 }
 
 module "storage" {
