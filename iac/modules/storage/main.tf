@@ -10,10 +10,10 @@ resource "azurerm_storage_account" "storage" {
 
   tags = var.tags
   network_rules {
-  default_action             = "Deny"
-  virtual_network_subnet_ids = [var.subnet_id]
-  bypass                     = ["AzureServices"]
-}
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [var.subnet_id]
+    bypass                     = ["AzureServices"]
+  }
   lifecycle {
     ignore_changes = [tags]
   }
@@ -32,7 +32,7 @@ resource "azurerm_private_endpoint" "storage" {
     subresource_names              = ["blob"]
     is_manual_connection           = false
   }
-    lifecycle {
+  lifecycle {
     ignore_changes = [tags]
   }
 }

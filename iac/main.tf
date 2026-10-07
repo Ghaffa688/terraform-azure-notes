@@ -89,7 +89,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 resource "azurerm_monitor_diagnostic_setting" "storage" {
   name                       = "${local.prefix}-storage-diag"
-  target_resource_id = "${module.storage.storage_account_id}/blobServices/default"
+  target_resource_id         = "${module.storage.storage_account_id}/blobServices/default"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
   enabled_log {
@@ -103,6 +103,10 @@ resource "azurerm_monitor_diagnostic_setting" "storage" {
   metric {
     category = "Transaction"
   }
+  metric {
+    category = "Capacity"
+    enabled = false
+}
 }
 resource "azurerm_monitor_diagnostic_setting" "webapp" {
   name                       = "${local.prefix}-webapp-diag"

@@ -7,6 +7,9 @@ resource "azurerm_service_plan" "webapp" {
   sku_name = "B1"
 
   tags = var.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "azurerm_linux_web_app" "webapp" {
@@ -23,4 +26,7 @@ resource "azurerm_linux_web_app" "webapp" {
     identity_ids = [var.identity_id]
   }
   tags = var.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
