@@ -1,6 +1,6 @@
 owner       = "ahmed"
 environment = "dev"
-location    = "uaenorth"
+location    = "eastus"
 
 project    = "notes"
 costcenter = "etic"

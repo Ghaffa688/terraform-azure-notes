@@ -33,11 +33,8 @@ module "storage" {
 
   tags = local.common_tags
 }
-module "identity" {
-  source = "./modules/identity"
-
-  identity_name = "${local.prefix}-identity"
-
+resource "azurerm_user_assigned_identity" "identity" {
+  name                = "${local.prefix}-identity"
   resource_group_name = module.network.resource_group_name
   location            = var.location
 
@@ -51,7 +48,7 @@ module "webapp" {
 
   resource_group_name = module.network.resource_group_name
   location            = var.location
-  identity_id         = module.identity.identity_id
+  identity_id         = azurerm_user_assigned_identity.identity.id
   webapp_count        = var.webapp_count
   tags                = local.common_tags
 }
@@ -78,7 +75,7 @@ resource "azurerm_role_assignment" "keyvault_secrets_user" {
   scope                = azurerm_key_vault.main.id
   role_definition_name = "Key Vault Secrets User"
 
-  principal_id = module.identity.principal_id
+  principal_id = azurerm_user_assigned_identity.identity.principal_id
 }
 resource "azurerm_log_analytics_workspace" "main" {
   name                = "${local.prefix}-law"

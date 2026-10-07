@@ -28,11 +28,11 @@ output "webapp_url" {
   value = module.webapp.webapp_url
 }
 output "identity_id" {
-  value = module.identity.identity_id
+  value = azurerm_user_assigned_identity.identity.id
 }
 
 output "identity_principal_id" {
-  value = module.identity.principal_id
+  value = azurerm_user_assigned_identity.identity.principal_id
 }
 output "keyvault_uri" {
   value = azurerm_key_vault.main.vault_uri
